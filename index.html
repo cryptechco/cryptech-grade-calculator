@@ -320,34 +320,43 @@
       </p>
 
       <form id="gradeForm">
-        <div class="field">
-          <label for="subject1">Subject 01</label>
-          <div class="input-wrap">
-            <input id="subject1" type="number"
-              min="0" max="100" step="any"
-              placeholder="Enter your grade" required>
-            <span class="unit">/ 100</span>
-          </div>
-        </div>
+        
+<div id="subjects">
+  <div class="field">
+    <label for="subject1">Subject 01</label>
+    <div class="input-wrap">
+      <input id="subject1" class="grade-input"
+        type="number" min="0" max="100" step="any"
+        placeholder="Enter your grade" required>
+      <span class="unit">/ 100</span>
+    </div>
+  </div>
 
-        <div class="field">
-          <label for="subject2">Subject 02</label>
-          <div class="input-wrap">
-            <input id="subject2" type="number"
-              min="0" max="100" step="any"
-              placeholder="Enter your grade" required>
-            <span class="unit">/ 100</span>
-          </div>
-        </div>
+  <div class="field">
+    <label for="subject2">Subject 02</label>
+    <div class="input-wrap">
+      <input id="subject2" class="grade-input"
+        type="number" min="0" max="100" step="any"
+        placeholder="Enter your grade" required>
+      <span class="unit">/ 100</span>
+    </div>
+  </div>
 
-        <div class="field">
-          <label for="subject3">Subject 03</label>
-          <div class="input-wrap">
-            <input id="subject3" type="number"
-              min="0" max="100" step="any"
-              placeholder="Enter your grade" required>
-            <span class="unit">/ 100</span>
-          </div>
+  <div class="field">
+    <label for="subject3">Subject 03</label>
+    <div class="input-wrap">
+      <input id="subject3" class="grade-input"
+        type="number" min="0" max="100" step="any"
+        placeholder="Enter your grade" required>
+      <span class="unit">/ 100</span>
+    </div>
+  </div>
+</div>
+
+<button class="btn reset" type="button" id="addSubject">
+  + Add another subject
+</button>
+
         </div>
 
         <button class="btn" type="submit">
