@@ -4,90 +4,461 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cryptech Grade Calculator</title>
+  <meta name="theme-color" content="#0b1020">
+  <title>GradeFlow | Grade Calculator</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
-      margin: 0;
-      padding: 24px;
+    * {
+      box-sizing: border-box;
     }
 
-    .container {
-      max-width: 400px;
-      margin: 40px auto;
-      padding: 24px;
-      background: #1e293b;
-      border-radius: 16px;
+    :root {
+      --bg: #0b1020;
+      --card: #141c31;
+      --input: #0c1428;
+      --primary: #7775ff;
+      --text: #f4f6ff;
+      --muted: #98a4bd;
+      --border: #283450;
+      --green: #42dfa0;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px 16px;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at top, #20244b 0%, transparent 55%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, Arial, sans-serif;
+    }
+
+    .app {
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .logo {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #7775ff, #43b9ff);
+      font-size: 23px;
+    }
+
+    .brand {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .tagline {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .hero {
+      margin-bottom: 24px;
+    }
+
+    .eyebrow {
+      color: #a5a2ff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
 
     h1 {
-      color: #38bdf8;
-      text-align: center;
+      margin: 10px 0;
+      font-size: clamp(29px, 8vw, 38px);
+      letter-spacing: -1.5px;
+      line-height: 1.15;
     }
 
-    input, button {
-      box-sizing: border-box;
+    .description {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .card {
+      padding: 22px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: rgba(20, 28, 49, 0.94);
+      box-shadow: 0 16px 40px #00000020;
+    }
+
+    .section-title {
+      margin: 0 0 5px;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .section-description {
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .field {
+      margin-bottom: 17px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 9px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    input {
+      display: block;
       width: 100%;
-      padding: 12px;
-      margin-top: 12px;
-      border: none;
-      border-radius: 8px;
+      min-height: 50px;
+      padding: 14px 48px 14px 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      background: var(--input);
+      color: var(--text);
+      font: inherit;
       font-size: 16px;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    button {
-      background: #0284c7;
+    input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px #7775ff25;
+    }
+
+    .unit {
+      position: absolute;
+      top: 50%;
+      right: 14px;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 12px;
+      pointer-events: none;
+    }
+
+    .btn {
+      width: 100%;
+      min-height: 51px;
+      border: none;
+      border-radius: 13px;
+      background: linear-gradient(110deg, #7775ff, #5688ff);
       color: white;
-      font-weight: bold;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
     }
 
-    #result {
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .reset {
+      margin-top: 10px;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .result {
+      display: none;
+    }
+
+    .result.show {
+      display: block;
+      animation: appear 0.3s ease;
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .result-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .score {
+      margin: 12px 0;
+      font-size: clamp(48px, 14vw, 62px);
+      font-weight: 800;
+      letter-spacing: -3px;
+      line-height: 1.1;
+      background: linear-gradient(100deg, #a19aff, #51c9ff);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 30px;
+      background: #42dfa018;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .status.review {
+      background: #ffbd5918;
+      color: #ffca72;
+    }
+
+    .progress-track {
+      height: 8px;
+      margin: 20px 0 8px;
+      overflow: hidden;
+      border-radius: 20px;
+      background: #29344d;
+    }
+
+    .progress-fill {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #7775ff, #42dfa0);
+      transition: width 0.5s ease;
+    }
+
+    .progress-caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .tip {
+      padding: 16px;
+      border: 1px solid #454278;
+      border-radius: 16px;
+      background: #7775ff0c;
+    }
+
+    .tip-title {
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .tip p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    footer {
+      padding: 20px 0 8px;
+      color: var(--muted);
+      font-size: 11px;
       text-align: center;
-      margin-top: 20px;
-      font-size: 20px;
     }
   </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>Grade Calculator</h1>
-    <p>Enter your grades below.</p>
+  <main class="app">
+    <header class="topbar">
+      <div class="logo">✦</div>
+      <div>
+        <div class="brand">GradeFlow</div>
+        <div class="tagline">Your personal study companion</div>
+      </div>
+    </header>
 
-    <input id="grade1" type="number" placeholder="Grade 1">
-    <input id="grade2" type="number" placeholder="Grade 2">
-    <input id="grade3" type="number" placeholder="Grade 3">
+    <section class="hero">
+      <div class="eyebrow">STUDENT TOOLKIT</div>
+      <h1>Your grades.<br>Your progress.</h1>
+      <p class="description">
+        Calculate your average, check your progress,
+        and keep moving toward your goals.
+      </p>
+    </section>
 
-    <button onclick="calculateAverage()">
-      Calculate Average
-    </button>
+    <section class="card">
+      <h2 class="section-title">Grade calculator</h2>
+      <p class="section-description">
+        Enter your grades below. Use scores from 0 to 100.
+      </p>
 
-    <div id="result"></div>
-  </div>
+      <form id="gradeForm">
+        <div class="field">
+          <label for="subject1">Subject 01</label>
+          <div class="input-wrap">
+            <input id="subject1" type="number"
+              min="0" max="100" step="any"
+              placeholder="Enter your grade" required>
+            <span class="unit">/ 100</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="subject2">Subject 02</label>
+          <div class="input-wrap">
+            <input id="subject2" type="number"
+              min="0" max="100" step="any"
+              placeholder="Enter your grade" required>
+            <span class="unit">/ 100</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="subject3">Subject 03</label>
+          <div class="input-wrap">
+            <input id="subject3" type="number"
+              min="0" max="100" step="any"
+              placeholder="Enter your grade" required>
+            <span class="unit">/ 100</span>
+          </div>
+        </div>
+
+        <button class="btn" type="submit">
+          Calculate my average ↗
+        </button>
+
+        <button class="btn reset" type="reset">
+          Clear grades
+        </button>
+      </form>
+    </section>
+
+    <section class="card result" id="result"
+      aria-live="polite">
+      <div class="result-label">YOUR AVERAGE</div>
+      <div class="score" id="average">0.00</div>
+      <div class="status" id="status">Great work!</div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="progress"></div>
+      </div>
+
+      <div class="progress-caption">
+        <span>Overall score</span>
+        <span id="progressLabel">0%</span>
+      </div>
+    </section>
+
+    <aside class="tip">
+      <div class="tip-title">✦ Keep going</div>
+      <p id="tipText">
+        Every study session counts. Use your results
+        to see where you want to improve.
+      </p>
+    </aside>
+
+    <footer>
+      Made with care by you · GradeFlow © 2026
+    </footer>
+  </main>
 
   <script>
-    function calculateAverage() {
-      const g1 = document.getElementById("grade1").value;
-      const g2 = document.getElementById("grade2").value;
-      const g3 = document.getElementById("grade3").value;
-      const result = document.getElementById("result");
+    const form = document.getElementById("gradeForm");
+    const result = document.getElementById("result");
 
-      if (g1 === "" || g2 === "" || g3 === "") {
-        result.textContent = "Please enter all grades.";
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const fields = [
+        document.getElementById("subject1"),
+        document.getElementById("subject2"),
+        document.getElementById("subject3")
+      ];
+
+      const grades = fields.map(field => {
+        return field.value.trim() === ""
+          ? NaN
+          : Number(field.value);
+      });
+
+      const invalid = grades.some(grade =>
+        !Number.isFinite(grade) ||
+        grade < 0 ||
+        grade > 100
+      );
+
+      if (invalid) {
+        alert("Please enter grades from 0 to 100.");
         return;
       }
 
-      const grades = [Number(g1), Number(g2), Number(g3)];
+      const average = grades.reduce(
+        (sum, grade) => sum + grade, 0
+      ) / grades.length;
 
-      if (grades.some(g => g < 0 || g > 100)) {
-        result.textContent = "Grades must be 0–100.";
-        return;
+      document.getElementById("average").textContent =
+        average.toFixed(2);
+
+      const status = document.getElementById("status");
+      const tipText = document.getElementById("tipText");
+
+      if (average >= 75) {
+        status.textContent = "✓ Passing average";
+        status.classList.remove("review");
+        tipText.textContent =
+          "Good job! Keep practicing and building your skills.";
+      } else {
+        status.textContent = "Keep practicing";
+        status.classList.add("review");
+        tipText.textContent =
+          "Review the topics you find difficult. You can keep improving!";
       }
 
-      const average = grades.reduce((a, b) => a + b, 0) / 3;
-      result.textContent = "Average: " + average.toFixed(2);
-    }
+      document.getElementById("progress").style.width =
+        average + "%";
+
+      document.getElementById("progressLabel").textContent =
+        average.toFixed(1) + "%";
+
+      result.classList.add("show");
+      result.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+    });
+
+    form.addEventListener("reset", function() {
+      result.classList.remove("show");
+      document.getElementById("progress").style.width = "0%";
+      document.getElementById("progressLabel").textContent = "0%";
+    });
   </script>
 </body>
 </html>
