@@ -690,6 +690,7 @@ function updateSummary() {
   if (invalid || grades.length === 0) {
     averageEl.textContent = "--";
     dashAverage.textContent = "--";
+document.getElementById("dashProgress").style.width = "0%";
     dashHighest.textContent = "--";
     dashLowest.textContent = "--";
     dashStatus.textContent = invalid
