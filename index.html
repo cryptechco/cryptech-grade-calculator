@@ -636,6 +636,73 @@
 
     document.getElementById("year").textContent =
       new Date().getFullYear();
+
+const weightedBtn = document.getElementById("weightedBtn");
+const weightedReset = document.getElementById("weightedReset");
+
+weightedBtn.addEventListener("click", function () {
+  const exam = document.getElementById("examGrade").value;
+  const quiz = document.getElementById("quizGrade").value;
+  const project = document.getElementById("projectGrade").value;
+
+  const examWeight = Number(document.getElementById("examWeight").value);
+  const quizWeight = Number(document.getElementById("quizWeight").value);
+  const projectWeight = Number(document.getElementById("projectWeight").value);
+
+  const message = document.getElementById("weightedMessage");
+  const result = document.getElementById("weightedResult");
+
+  if (exam.trim() === "" || quiz.trim() === "" || project.trim() === "") {
+    message.textContent = "Please enter all three grades.";
+    result.textContent = "--";
+    return;
+  }
+
+  const grades = [Number(exam), Number(quiz), Number(project)];
+
+  if (grades.some(g => !Number.isFinite(g) || g < 0 || g > 100)) {
+    message.textContent = "Grades must be between 0 and 100.";
+    result.textContent = "--";
+    return;
+  }
+
+  const weights = [examWeight, quizWeight, projectWeight];
+
+  if (
+    weights.some(w => !Number.isFinite(w) || w < 0 || w > 100) ||
+    Math.abs(weights.reduce((sum, w) => sum + w, 0) - 100) > 0.0001
+  ) {
+    message.textContent = "Weights must total exactly 100%.";
+    result.textContent = "--";
+    return;
+  }
+
+  const weightedGrade =
+    (grades[0] * weights[0] +
+     grades[1] * weights[1] +
+     grades[2] * weights[2]) / 100;
+
+  result.textContent = weightedGrade.toFixed(2);
+
+  message.textContent = weightedGrade >= 75
+    ? "Passing grade (using 75 as the sample passing mark)."
+    : "Below the sample passing mark of 75.";
+});
+
+weightedReset.addEventListener("click", function () {
+  document.getElementById("examGrade").value = "";
+  document.getElementById("quizGrade").value = "";
+  document.getElementById("projectGrade").value = "";
+
+  document.getElementById("examWeight").value = 40;
+  document.getElementById("quizWeight").value = 30;
+  document.getElementById("projectWeight").value = 30;
+
+  document.getElementById("weightedResult").textContent = "--";
+  document.getElementById("weightedMessage").textContent =
+    "Enter all three grades to calculate your result.";
+});
+
   </script>
 </body>
 </html>
