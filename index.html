@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cryptech Grade Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      margin: 0;
+      padding: 24px;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 40px auto;
+      padding: 24px;
+      background: #1e293b;
+      border-radius: 16px;
+    }
+
+    h1 {
+      color: #38bdf8;
+      text-align: center;
+    }
+
+    input, button {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      background: #0284c7;
+      color: white;
+      font-weight: bold;
+    }
+
+    #result {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Grade Calculator</h1>
+    <p>Enter your grades below.</p>
+
+    <input id="grade1" type="number" placeholder="Grade 1">
+    <input id="grade2" type="number" placeholder="Grade 2">
+    <input id="grade3" type="number" placeholder="Grade 3">
+
+    <button onclick="calculateAverage()">
+      Calculate Average
+    </button>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function calculateAverage() {
+      const g1 = document.getElementById("grade1").value;
+      const g2 = document.getElementById("grade2").value;
+      const g3 = document.getElementById("grade3").value;
+      const result = document.getElementById("result");
+
+      if (g1 === "" || g2 === "" || g3 === "") {
+        result.textContent = "Please enter all grades.";
+        return;
+      }
+
+      const grades = [Number(g1), Number(g2), Number(g3)];
+
+      if (grades.some(g => g < 0 || g > 100)) {
+        result.textContent = "Grades must be 0–100.";
+        return;
+      }
+
+      const average = grades.reduce((a, b) => a + b, 0) / 3;
+      result.textContent = "Average: " + average.toFixed(2);
+    }
+  </script>
+</body>
+</html>
