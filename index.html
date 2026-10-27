@@ -5,504 +5,573 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0b1020">
-  <title>GradeFlow | Grade Calculator</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="description" content="A simple student grade calculator by Cryptech.">
+  <title>Cryptech | Grade Calculator</title>
 
   <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121a2e;
+      --panel2: #18233a;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --blue: #38bdf8;
+      --border: #26334d;
+      --green: #4ade80;
+      --red: #fb7185;
+    }
+
     * {
       box-sizing: border-box;
     }
 
-    :root {
-      --bg: #0b1020;
-      --card: #141c31;
-      --input: #0c1428;
-      --primary: #7775ff;
-      --text: #f4f6ff;
-      --muted: #98a4bd;
-      --border: #283450;
-      --green: #42dfa0;
-    }
-
     body {
       margin: 0;
-      padding: 24px 16px;
       min-height: 100vh;
-      background:
-        radial-gradient(ellipse at top, #20244b 0%, transparent 55%),
-        var(--bg);
+      padding: 22px 15px 35px;
+      background: var(--bg);
       color: var(--text);
-      font-family: Inter, Arial, sans-serif;
+      font-family: system-ui, -apple-system, sans-serif;
     }
 
     .app {
-      max-width: 440px;
+      width: 100%;
+      max-width: 560px;
       margin: 0 auto;
     }
 
-    .topbar {
+    header {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 28px;
+      margin: 8px 0 28px;
     }
 
     .logo {
+      width: 45px;
+      height: 45px;
       display: grid;
       place-items: center;
-      width: 46px;
-      height: 46px;
-      border-radius: 15px;
-      background: linear-gradient(135deg, #7775ff, #43b9ff);
-      font-size: 23px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #0284c7, #6366f1);
+      font-size: 22px;
+      font-weight: 800;
     }
 
     .brand {
+      margin: 0;
       font-size: 18px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
+      letter-spacing: 1px;
     }
 
     .tagline {
-      margin-top: 4px;
+      margin: 3px 0 0;
       color: var(--muted);
       font-size: 12px;
     }
 
-    .hero {
-      margin-bottom: 24px;
-    }
-
     .eyebrow {
-      color: #a5a2ff;
-      font-size: 11px;
+      color: var(--blue);
+      font-size: 12px;
       font-weight: 700;
       letter-spacing: 2px;
       text-transform: uppercase;
     }
 
     h1 {
-      margin: 10px 0;
-      font-size: clamp(29px, 8vw, 38px);
-      letter-spacing: -1.5px;
+      margin: 8px 0;
+      font-size: clamp(27px, 7vw, 38px);
+      letter-spacing: -1.2px;
       line-height: 1.15;
     }
 
-    .description {
+    .intro {
       color: var(--muted);
       font-size: 14px;
-      line-height: 1.7;
-    }
-
-    .card {
-      padding: 22px;
-      margin-bottom: 16px;
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      background: rgba(20, 28, 49, 0.94);
-      box-shadow: 0 16px 40px #00000020;
-    }
-
-    .section-title {
-      margin: 0 0 5px;
-      font-size: 17px;
-      font-weight: 700;
-    }
-
-    .section-description {
-      margin: 0 0 22px;
-      color: var(--muted);
-      font-size: 12px;
       line-height: 1.6;
     }
 
-    .field {
-      margin-bottom: 17px;
+    .summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 24px 0;
+    }
+
+    .card, .subject-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+    }
+
+    .card {
+      padding: 18px;
+    }
+
+    .card-label {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .big-number {
+      margin-top: 9px;
+      font-size: 30px;
+      font-weight: 750;
+      letter-spacing: -1px;
+    }
+
+    .status {
+      margin-top: 7px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 28px 0 14px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .subject-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .subject-card {
+      padding: 15px;
+    }
+
+    .subject-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 13px;
+    }
+
+    .subject-name {
+      flex: 1;
+      min-width: 0;
     }
 
     label {
       display: block;
-      margin-bottom: 9px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .input-wrap {
-      position: relative;
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 12px;
     }
 
     input {
-      display: block;
       width: 100%;
-      min-height: 50px;
-      padding: 14px 48px 14px 14px;
+      min-width: 0;
+      padding: 12px;
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 10px;
       outline: none;
-      background: var(--input);
+      background: var(--panel2);
       color: var(--text);
       font: inherit;
-      font-size: 16px;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      font-size: 14px;
     }
 
     input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px #7775ff25;
+      border-color: var(--blue);
     }
 
-    .unit {
-      position: absolute;
-      top: 50%;
-      right: 14px;
-      transform: translateY(-50%);
-      color: var(--muted);
-      font-size: 12px;
-      pointer-events: none;
+    .grade-input {
+      width: 100px;
     }
 
-    .btn {
-      width: 100%;
-      min-height: 51px;
-      border: none;
-      border-radius: 13px;
-      background: linear-gradient(110deg, #7775ff, #5688ff);
-      color: white;
-      font: inherit;
-      font-size: 14px;
-      font-weight: 700;
+    .subject-fields {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 100px;
+      gap: 12px;
+    }
+
+    button {
       cursor: pointer;
-      transition: opacity 0.2s, transform 0.2s;
-    }
-
-    .btn:active {
-      transform: scale(0.98);
-    }
-
-    .reset {
-      margin-top: 10px;
-      background: transparent;
-      color: var(--muted);
-      border: 1px solid var(--border);
-    }
-
-    .result {
-      display: none;
-    }
-
-    .result.show {
-      display: block;
-      animation: appear 0.3s ease;
-    }
-
-    @keyframes appear {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .result-label {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .score {
-      margin: 12px 0;
-      font-size: clamp(48px, 14vw, 62px);
-      font-weight: 800;
-      letter-spacing: -3px;
-      line-height: 1.1;
-      background: linear-gradient(100deg, #a19aff, #51c9ff);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-
-    .status {
-      display: inline-block;
-      padding: 8px 12px;
-      border-radius: 30px;
-      background: #42dfa018;
-      color: var(--green);
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .status.review {
-      background: #ffbd5918;
-      color: #ffca72;
-    }
-
-    .progress-track {
-      height: 8px;
-      margin: 20px 0 8px;
-      overflow: hidden;
-      border-radius: 20px;
-      background: #29344d;
-    }
-
-    .progress-fill {
-      width: 0;
-      height: 100%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, #7775ff, #42dfa0);
-      transition: width 0.5s ease;
-    }
-
-    .progress-caption {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      color: var(--muted);
-      font-size: 11px;
-    }
-
-    .tip {
-      padding: 16px;
-      border: 1px solid #454278;
-      border-radius: 16px;
-      background: #7775ff0c;
-    }
-
-    .tip-title {
-      margin-bottom: 6px;
+      border: 0;
+      border-radius: 11px;
+      padding: 12px 15px;
+      font: inherit;
       font-size: 13px;
       font-weight: 700;
     }
 
-    .tip p {
+    .primary {
+      background: var(--blue);
+      color: #082032;
+    }
+
+    .secondary {
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .remove {
+      padding: 9px 11px;
+      background: #3b1b30;
+      color: #fda4af;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .actions button {
+      min-height: 46px;
+    }
+
+    button:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+    }
+
+    .result-card {
+      margin-top: 20px;
+      padding: 18px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+    }
+
+    .result-card h2 {
+      margin-bottom: 10px;
+    }
+
+    #message {
       margin: 0;
       color: var(--muted);
-      font-size: 12px;
-      line-height: 1.7;
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .pass {
+      color: var(--green) !important;
+    }
+
+    .fail {
+      color: var(--red) !important;
+    }
+
+    .note {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+      text-align: center;
     }
 
     footer {
-      padding: 20px 0 8px;
+      margin-top: 30px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
       color: var(--muted);
-      font-size: 11px;
+      font-size: 12px;
       text-align: center;
+    }
+
+    footer strong {
+      color: var(--blue);
+    }
+
+    @media (max-width: 360px) {
+      .card {
+        padding: 13px;
+      }
+
+      .big-number {
+        font-size: 25px;
+      }
+
+      .subject-fields {
+        grid-template-columns: minmax(0, 1fr) 85px;
+      }
+
+      .grade-input {
+        width: 85px;
+      }
     }
   </style>
 </head>
 
 <body>
   <main class="app">
-    <header class="topbar">
-      <div class="logo">✦</div>
+    <header>
+      <div class="logo" aria-hidden="true">C</div>
       <div>
-        <div class="brand">GradeFlow</div>
-        <div class="tagline">Your personal study companion</div>
+        <p class="brand"><strong>CRYPTECH</strong></p>
+        <p class="tagline">Simple tools. Smarter studying.</p>
       </div>
     </header>
 
-    <section class="hero">
-      <div class="eyebrow">STUDENT TOOLKIT</div>
-      <h1>Your grades.<br>Your progress.</h1>
-      <p class="description">
-        Calculate your average, check your progress,
-        and keep moving toward your goals.
+    <section>
+      <div class="eyebrow">Student toolkit</div>
+      <h1>Grade Calculator<span style="color:#38bdf8">.</span></h1>
+      <p class="intro">
+        Track your subjects and calculate your average
+        in one simple dashboard.
       </p>
     </section>
 
-    <section class="card">
-      <h2 class="section-title">Grade calculator</h2>
-      <p class="section-description">
-        Enter your grades below. Use scores from 0 to 100.
-      </p>
-
-      <form id="gradeForm">
-        
-<div id="subjects">
-  <div class="field">
-    <label for="subject1">Subject 01</label>
-    <div class="input-wrap">
-      <input id="subject1" class="grade-input"
-        type="number" min="0" max="100" step="any"
-        placeholder="Enter your grade" required>
-      <span class="unit">/ 100</span>
-    </div>
-  </div>
-
-  <div class="field">
-    <label for="subject2">Subject 02</label>
-    <div class="input-wrap">
-      <input id="subject2" class="grade-input"
-        type="number" min="0" max="100" step="any"
-        placeholder="Enter your grade" required>
-      <span class="unit">/ 100</span>
-    </div>
-  </div>
-
-  <div class="field">
-    <label for="subject3">Subject 03</label>
-    <div class="input-wrap">
-      <input id="subject3" class="grade-input"
-        type="number" min="0" max="100" step="any"
-        placeholder="Enter your grade" required>
-      <span class="unit">/ 100</span>
-    </div>
-  </div>
-</div>
-
-<button class="btn" type="submit">
-  Calculate my average ↗
-</button>
-
-<button class="btn reset" type="button" id="addSubject">
-  + Add another subject
-</button>
-
-<button class="btn reset" type="reset">
-  Clear grades
-</button>
-
-      </form>
-    </section>
-
-    <section class="card result" id="result"
-      aria-live="polite">
-      <div class="result-label">YOUR AVERAGE</div>
-      <div class="score" id="average">0.00</div>
-      <div class="status" id="status">Great work!</div>
-
-      <div class="progress-track">
-        <div class="progress-fill" id="progress"></div>
+    <section class="summary" aria-live="polite">
+      <div class="card">
+        <div class="card-label">Overall Average</div>
+        <div class="big-number" id="average">--</div>
+        <div class="status">Across valid subjects</div>
       </div>
 
-      <div class="progress-caption">
-        <span>Overall score</span>
-        <span id="progressLabel">0%</span>
+      <div class="card">
+        <div class="card-label">Subjects Added</div>
+        <div class="big-number" id="count">0</div>
+        <div class="status">Your grade tracker</div>
       </div>
     </section>
 
-    <aside class="tip">
-      <div class="tip-title">✦ Keep going</div>
-      <p id="tipText">
-        Every study session counts. Use your results
-        to see where you want to improve.
+    <section>
+      <div class="section-head">
+        <h2>Your subjects</h2>
+        <button class="secondary" id="addBtn" type="button">
+          + Add subject
+        </button>
+      </div>
+
+      <div class="subject-list" id="subjects"></div>
+
+      <div class="actions">
+        <button class="primary" id="calculateBtn" type="button">
+          Calculate average
+        </button>
+        <button class="secondary" id="resetBtn" type="button">
+          Reset grades
+        </button>
+      </div>
+    </section>
+
+    <section class="result-card" aria-live="polite">
+      <h2>Your result</h2>
+      <p id="message">
+        Add your subjects and grades to get started.
       </p>
-    </aside>
+    </section>
+
+    <p class="note">
+      This tool uses a simple average. Your school's grading
+      rules may differ. Results are calculated on this device.
+    </p>
 
     <footer>
-      Made with care by you · GradeFlow © 2026
+      Built with care by <strong>CRYPTECH</strong> ©
+      <span id="year"></span>
     </footer>
   </main>
 
-  
-<script>
-  const form = document.getElementById("gradeForm");
-  const result = document.getElementById("result");
-  const subjects = document.getElementById("subjects");
-  const addButton = document.getElementById("addSubject");
+  <script>
+    const subjects = document.getElementById("subjects");
+    const averageEl = document.getElementById("average");
+    const countEl = document.getElementById("count");
+    const message = document.getElementById("message");
 
-  let subjectCount = 3;
+    let nextId = 0;
 
-  addButton.addEventListener("click", function() {
-    subjectCount++;
+    function addSubject(name = "", grade = "") {
+      if (subjects.children.length >= 20) {
+        message.textContent = "You can add up to 20 subjects.";
+        message.className = "";
+        return;
+      }
 
-    const field = document.createElement("div");
-    field.className = "field";
+      const id = nextId++;
+      const card = document.createElement("article");
+      card.className = "subject-card";
+      card.dataset.id = id;
 
-    const label = document.createElement("label");
-    label.htmlFor = "subject" + subjectCount;
-    label.textContent = "Subject " +
-      String(subjectCount).padStart(2, "0");
+      const top = document.createElement("div");
+      top.className = "subject-top";
 
-    const wrap = document.createElement("div");
-    wrap.className = "input-wrap";
+      const number = document.createElement("strong");
+      number.textContent = "Subject " + (subjects.children.length + 1);
+      number.style.color = "#38bdf8";
 
-    const input = document.createElement("input");
-    input.id = "subject" + subjectCount;
-    input.className = "grade-input";
-    input.type = "number";
-    input.min = "0";
-    input.max = "100";
-    input.step = "any";
-    input.placeholder = "Enter your grade";
-    input.required = true;
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "remove";
+      remove.textContent = "Remove";
+      remove.setAttribute("aria-label", "Remove subject");
 
-    const unit = document.createElement("span");
-    unit.className = "unit";
-    unit.textContent = "/ 100";
+      remove.addEventListener("click", () => {
+        card.remove();
+        renumberSubjects();
+        updateSummary();
+        message.textContent = "Subject removed. Calculate again to update your result.";
+        message.className = "";
+      });
 
-    wrap.append(input, unit);
-    field.append(label, wrap);
-    subjects.appendChild(field);
+      top.append(number, remove);
 
-    input.focus();
-  });
+      const fields = document.createElement("div");
+      fields.className = "subject-fields";
 
-  form.addEventListener("submit", function(event) {
-    event.preventDefault();
+      const nameWrap = document.createElement("div");
+      const nameLabel = document.createElement("label");
+      nameLabel.textContent = "Subject name";
 
-    const fields = [
-      ...document.querySelectorAll(".grade-input")
-    ];
+      const nameInput = document.createElement("input");
+      nameInput.type = "text";
+      nameInput.placeholder = "e.g. Mathematics";
+      nameInput.maxLength = 50;
+      nameInput.value = name;
+      nameInput.className = "subject-name";
 
-    const grades = fields.map(field =>
-      field.value.trim() === ""
-        ? NaN
-        : Number(field.value)
-    );
+      nameWrap.append(nameLabel, nameInput);
 
-    if (grades.some(grade =>
-      !Number.isFinite(grade) ||
-      grade < 0 ||
-      grade > 100
-    )) {
-      alert("Please enter every grade from 0 to 100.");
-      return;
+      const gradeWrap = document.createElement("div");
+      const gradeLabel = document.createElement("label");
+      gradeLabel.textContent = "Grade (0–100)";
+
+      const gradeInput = document.createElement("input");
+      gradeInput.type = "number";
+      gradeInput.inputMode = "decimal";
+      gradeInput.min = "0";
+      gradeInput.max = "100";
+      gradeInput.step = "any";
+      gradeInput.placeholder = "e.g. 90";
+      gradeInput.value = grade;
+      gradeInput.className = "grade-input";
+      gradeInput.setAttribute("aria-label", "Grade from 0 to 100");
+
+      gradeWrap.append(gradeLabel, gradeInput);
+      fields.append(nameWrap, gradeWrap);
+      card.append(top, fields);
+      subjects.append(card);
+
+      gradeInput.addEventListener("input", updateSummary);
+      nameInput.addEventListener("input", updateSummary);
+
+      updateSummary();
     }
 
-    const average = grades.reduce(
-      (sum, grade) => sum + grade, 0
-    ) / grades.length;
-
-    document.getElementById("average").textContent =
-      average.toFixed(2);
-
-    const status = document.getElementById("status");
-    const tip = document.getElementById("tipText");
-
-    if (average >= 75) {
-      status.textContent = "✓ Passing average";
-      status.classList.remove("review");
-      tip.textContent =
-        "Good job! Keep practicing and building your skills.";
-    } else {
-      status.textContent = "Keep practicing";
-      status.classList.add("review");
-      tip.textContent =
-        "Review the topics you find difficult. You can keep improving!";
+    function renumberSubjects() {
+      [...subjects.children].forEach((card, index) => {
+        card.querySelector(".subject-top strong").textContent =
+          "Subject " + (index + 1);
+      });
     }
 
-    document.getElementById("progress").style.width =
-      average + "%";
+    function readGrades() {
+      const cards = [...subjects.children];
+      const grades = [];
+      let invalid = false;
 
-    document.getElementById("progressLabel").textContent =
-      average.toFixed(1) + "%";
+      cards.forEach(card => {
+        const input = card.querySelector(".grade-input");
+        const raw = input.value.trim();
 
-    result.classList.add("show");
-    result.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest"
+        input.setCustomValidity("");
+
+        if (raw === "") return;
+
+        const grade = Number(raw);
+
+        if (!Number.isFinite(grade) || grade < 0 || grade > 100) {
+          input.setCustomValidity("Enter a grade from 0 to 100.");
+          invalid = true;
+          input.reportValidity();
+          return;
+        }
+
+        grades.push(grade);
+      });
+
+      return { grades, invalid };
+    }
+
+    function updateSummary() {
+      const { grades, invalid } = readGrades();
+
+      countEl.textContent = subjects.children.length;
+
+      if (invalid) {
+        averageEl.textContent = "--";
+        return;
+      }
+
+      if (grades.length === 0) {
+        averageEl.textContent = "--";
+        return;
+      }
+
+      const average = grades.reduce((sum, grade) => sum + grade, 0)
+        / grades.length;
+
+      averageEl.textContent = average.toFixed(2);
+    }
+
+    function calculateAverage() {
+      const { grades, invalid } = readGrades();
+
+      if (invalid) {
+        message.textContent = "Please correct grades outside the 0–100 range.";
+        message.className = "fail";
+        return;
+      }
+
+      if (grades.length === 0) {
+        message.textContent = "Enter at least one valid grade first.";
+        message.className = "";
+        return;
+      }
+
+      const average = grades.reduce((sum, grade) => sum + grade, 0)
+        / grades.length;
+
+      const passed = average >= 75;
+
+      message.textContent =
+        "Your average is " + average.toFixed(2) + ". " +
+        (passed
+          ? "Passed based on the 75-point example threshold."
+          : "Below the 75-point example threshold.");
+
+      message.className = passed ? "pass" : "fail";
+    }
+
+    document.getElementById("addBtn").addEventListener("click", () => {
+      addSubject();
     });
-  });
 
-  form.addEventListener("reset", function() {
-    result.classList.remove("show");
-    document.getElementById("progress").style.width = "0%";
-    document.getElementById("progressLabel").textContent = "0%";
-  });
-</script>
+    document.getElementById("calculateBtn")
+      .addEventListener("click", calculateAverage);
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      subjects.replaceChildren();
+      nextId = 0;
+      addSubject("Mathematics");
+      addSubject("Science");
+      addSubject("English");
+      averageEl.textContent = "--";
+      message.textContent = "Grades reset. Enter your grades to start again.";
+      message.className = "";
+      updateSummary();
+    });
+
+    addSubject("Mathematics");
+    addSubject("Science");
+    addSubject("English");
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+  </script>
 </body>
 </html>
