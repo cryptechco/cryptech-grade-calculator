@@ -650,26 +650,47 @@
       return { grades, invalid };
     }
 
-    function updateSummary() {
-      const { grades, invalid } = readGrades();
+    
+function updateSummary() {
+  const { grades, invalid } = readGrades();
 
-      countEl.textContent = subjects.children.length;
+  countEl.textContent = subjects.children.length;
 
-      if (invalid) {
-        averageEl.textContent = "--";
-        return;
-      }
+  const dashAverage = document.getElementById("dashAverage");
+  const dashCount = document.getElementById("dashCount");
+  const dashHighest = document.getElementById("dashHighest");
+  const dashLowest = document.getElementById("dashLowest");
+  const dashStatus = document.getElementById("dashStatus");
 
-      if (grades.length === 0) {
-        averageEl.textContent = "--";
-        return;
-      }
+  dashCount.textContent = grades.length;
 
-      const average = grades.reduce((sum, grade) => sum + grade, 0)
-        / grades.length;
+  if (invalid || grades.length === 0) {
+    averageEl.textContent = "--";
+    dashAverage.textContent = "--";
+    dashHighest.textContent = "--";
+    dashLowest.textContent = "--";
+    dashStatus.textContent = invalid
+      ? "Please correct invalid grades"
+      : "Add your subject grades";
+    return;
+  }
 
-      averageEl.textContent = average.toFixed(2);
-    }
+  const average =
+    grades.reduce((sum, grade) => sum + grade, 0) / grades.length;
+
+  const highest = Math.max(...grades);
+  const lowest = Math.min(...grades);
+
+  averageEl.textContent = average.toFixed(2);
+  dashAverage.textContent = average.toFixed(2);
+  dashHighest.textContent = highest.toFixed(2);
+  dashLowest.textContent = lowest.toFixed(2);
+
+  dashStatus.textContent = average >= 75
+    ? "Passing · Sample threshold: 75"
+    : "Below passing · Sample threshold: 75";
+}
+
 
     function calculateAverage() {
       const { grades, invalid } = readGrades();
