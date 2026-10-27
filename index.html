@@ -339,6 +339,70 @@
       </div>
     </section>
 
+<section class="result-card" id="weighted-grading">
+  <div class="eyebrow">Grade breakdown</div>
+  <h2>Weighted Grade Calculator</h2>
+  <p class="intro">
+    Enter your grades and set each category's weight.
+    The weights must total 100%.
+  </p>
+
+  <div class="subject-list">
+    <div class="subject-card">
+      <label for="examGrade">Exam grade (0–100)</label>
+      <input id="examGrade" type="number"
+        min="0" max="100" step="any" placeholder="e.g. 90">
+
+      <label for="examWeight" style="margin-top:12px">
+        Exam weight (%)
+      </label>
+      <input id="examWeight" type="number"
+        min="0" max="100" step="any" value="40">
+    </div>
+
+    <div class="subject-card">
+      <label for="quizGrade">Quiz grade (0–100)</label>
+      <input id="quizGrade" type="number"
+        min="0" max="100" step="any" placeholder="e.g. 85">
+
+      <label for="quizWeight" style="margin-top:12px">
+        Quiz weight (%)
+      </label>
+      <input id="quizWeight" type="number"
+        min="0" max="100" step="any" value="30">
+    </div>
+
+    <div class="subject-card">
+      <label for="projectGrade">Project grade (0–100)</label>
+      <input id="projectGrade" type="number"
+        min="0" max="100" step="any" placeholder="e.g. 95">
+
+      <label for="projectWeight" style="margin-top:12px">
+        Project weight (%)
+      </label>
+      <input id="projectWeight" type="number"
+        min="0" max="100" step="any" value="30">
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="primary" id="weightedBtn" type="button">
+      Calculate weighted grade
+    </button>
+    <button class="secondary" id="weightedReset" type="button">
+      Clear grades
+    </button>
+  </div>
+
+  <div class="result-card" aria-live="polite">
+    <div class="card-label">Weighted final grade</div>
+    <div class="big-number" id="weightedResult">--</div>
+    <p id="weightedMessage" class="intro">
+      Enter all three grades to calculate your result.
+    </p>
+  </div>
+</section>
+
     <section>
       <div class="section-head">
         <h2>Your subjects</h2>
