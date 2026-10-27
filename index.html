@@ -353,19 +353,18 @@
   </div>
 </div>
 
+<button class="btn" type="submit">
+  Calculate my average ↗
+</button>
+
 <button class="btn reset" type="button" id="addSubject">
   + Add another subject
 </button>
 
-        </div>
+<button class="btn reset" type="reset">
+  Clear grades
+</button>
 
-        <button class="btn" type="submit">
-          Calculate my average ↗
-        </button>
-
-        <button class="btn reset" type="reset">
-          Clear grades
-        </button>
       </form>
     </section>
 
@@ -398,76 +397,112 @@
     </footer>
   </main>
 
-  <script>
-    const form = document.getElementById("gradeForm");
-    const result = document.getElementById("result");
+  
+<script>
+  const form = document.getElementById("gradeForm");
+  const result = document.getElementById("result");
+  const subjects = document.getElementById("subjects");
+  const addButton = document.getElementById("addSubject");
 
-    form.addEventListener("submit", function(event) {
-      event.preventDefault();
+  let subjectCount = 3;
 
-      const fields = [
-        document.getElementById("subject1"),
-        document.getElementById("subject2"),
-        document.getElementById("subject3")
-      ];
+  addButton.addEventListener("click", function() {
+    subjectCount++;
 
-      const grades = fields.map(field => {
-        return field.value.trim() === ""
-          ? NaN
-          : Number(field.value);
-      });
+    const field = document.createElement("div");
+    field.className = "field";
 
-      const invalid = grades.some(grade =>
-        !Number.isFinite(grade) ||
-        grade < 0 ||
-        grade > 100
-      );
+    const label = document.createElement("label");
+    label.htmlFor = "subject" + subjectCount;
+    label.textContent = "Subject " +
+      String(subjectCount).padStart(2, "0");
 
-      if (invalid) {
-        alert("Please enter grades from 0 to 100.");
-        return;
-      }
+    const wrap = document.createElement("div");
+    wrap.className = "input-wrap";
 
-      const average = grades.reduce(
-        (sum, grade) => sum + grade, 0
-      ) / grades.length;
+    const input = document.createElement("input");
+    input.id = "subject" + subjectCount;
+    input.className = "grade-input";
+    input.type = "number";
+    input.min = "0";
+    input.max = "100";
+    input.step = "any";
+    input.placeholder = "Enter your grade";
+    input.required = true;
 
-      document.getElementById("average").textContent =
-        average.toFixed(2);
+    const unit = document.createElement("span");
+    unit.className = "unit";
+    unit.textContent = "/ 100";
 
-      const status = document.getElementById("status");
-      const tipText = document.getElementById("tipText");
+    wrap.append(input, unit);
+    field.append(label, wrap);
+    subjects.appendChild(field);
 
-      if (average >= 75) {
-        status.textContent = "✓ Passing average";
-        status.classList.remove("review");
-        tipText.textContent =
-          "Good job! Keep practicing and building your skills.";
-      } else {
-        status.textContent = "Keep practicing";
-        status.classList.add("review");
-        tipText.textContent =
-          "Review the topics you find difficult. You can keep improving!";
-      }
+    input.focus();
+  });
 
-      document.getElementById("progress").style.width =
-        average + "%";
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
 
-      document.getElementById("progressLabel").textContent =
-        average.toFixed(1) + "%";
+    const fields = [
+      ...document.querySelectorAll(".grade-input")
+    ];
 
-      result.classList.add("show");
-      result.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest"
-      });
+    const grades = fields.map(field =>
+      field.value.trim() === ""
+        ? NaN
+        : Number(field.value)
+    );
+
+    if (grades.some(grade =>
+      !Number.isFinite(grade) ||
+      grade < 0 ||
+      grade > 100
+    )) {
+      alert("Please enter every grade from 0 to 100.");
+      return;
+    }
+
+    const average = grades.reduce(
+      (sum, grade) => sum + grade, 0
+    ) / grades.length;
+
+    document.getElementById("average").textContent =
+      average.toFixed(2);
+
+    const status = document.getElementById("status");
+    const tip = document.getElementById("tipText");
+
+    if (average >= 75) {
+      status.textContent = "✓ Passing average";
+      status.classList.remove("review");
+      tip.textContent =
+        "Good job! Keep practicing and building your skills.";
+    } else {
+      status.textContent = "Keep practicing";
+      status.classList.add("review");
+      tip.textContent =
+        "Review the topics you find difficult. You can keep improving!";
+    }
+
+    document.getElementById("progress").style.width =
+      average + "%";
+
+    document.getElementById("progressLabel").textContent =
+      average.toFixed(1) + "%";
+
+    result.classList.add("show");
+    result.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest"
     });
+  });
 
-    form.addEventListener("reset", function() {
-      result.classList.remove("show");
-      document.getElementById("progress").style.width = "0%";
-      document.getElementById("progressLabel").textContent = "0%";
-    });
-  </script>
+  form.addEventListener("reset", function() {
+    result.classList.remove("show");
+    document.getElementById("progress").style.width = "0%";
+    document.getElementById("progressLabel").textContent = "0%";
+  });
+</script>
 </body>
 </html>
