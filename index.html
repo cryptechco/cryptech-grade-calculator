@@ -374,6 +374,20 @@
   transition: width 0.4s ease;
 }
 
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  background: rgba(255, 255, 255, 0.12);
+  overflow-wrap: anywhere;
+}
+
   </style>
 </head>
 
@@ -500,7 +514,10 @@
   <div class="progress-fill" id="dashProgress"></div>
 </div>
 
-      <span class="dashboard-note">With valid grades</span>
+      <span> 
+      <span class="dashboard-note status-badge" id="dashStatus"> 
+      </span>
+
     </div>
 
     <div class="dashboard-card">
