@@ -723,6 +723,8 @@ document.getElementById("dashProgress").style.width = "0%";
     dashHighest.textContent = "--";
     dashLowest.textContent = "--";
     dashStatus.textContent = invalid
+dashStatus.classList.remove("status-pass", "status-fail");
+dashStatus.style.display = "inline-flex";
       ? "Please correct invalid grades"
       : "Add your subject grades";
     return;
