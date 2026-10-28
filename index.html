@@ -703,6 +703,7 @@
     }
 
     
+
 function updateSummary() {
   const { grades, invalid } = readGrades();
 
@@ -713,20 +714,22 @@ function updateSummary() {
   const dashHighest = document.getElementById("dashHighest");
   const dashLowest = document.getElementById("dashLowest");
   const dashStatus = document.getElementById("dashStatus");
+  const dashProgress = document.getElementById("dashProgress");
 
   dashCount.textContent = grades.length;
 
   if (invalid || grades.length === 0) {
     averageEl.textContent = "--";
     dashAverage.textContent = "--";
-document.getElementById("dashProgress").style.width = "0%";
+    dashProgress.style.width = "0%";
     dashHighest.textContent = "--";
     dashLowest.textContent = "--";
+
     dashStatus.textContent = invalid
-dashStatus.classList.remove("status-pass", "status-fail");
-dashStatus.style.display = "inline-flex";
       ? "Please correct invalid grades"
       : "Add your subject grades";
+
+    dashStatus.classList.remove("status-pass", "status-fail");
     return;
   }
 
@@ -738,9 +741,8 @@ dashStatus.style.display = "inline-flex";
 
   averageEl.textContent = average.toFixed(2);
   dashAverage.textContent = average.toFixed(2);
-
-const dashProgress = document.getElementById("dashProgress");
-dashProgress.style.width = Math.min(100, Math.max(0, average)) + "%";
+  dashProgress.style.width =
+    Math.min(100, Math.max(0, average)) + "%";
 
   dashHighest.textContent = highest.toFixed(2);
   dashLowest.textContent = lowest.toFixed(2);
@@ -748,10 +750,10 @@ dashProgress.style.width = Math.min(100, Math.max(0, average)) + "%";
   dashStatus.textContent = average >= 75
     ? "Passing · Sample threshold: 75"
     : "Below passing · Sample threshold: 75";
-}
-dashStatus.classList.toggle("status-pass", average >= 75);
-dashStatus.classList.toggle("status-fail", average < 75);
 
+  dashStatus.classList.toggle("status-pass", average >= 75);
+  dashStatus.classList.toggle("status-fail", average < 75);
+}
 
     function calculateAverage() {
       const { grades, invalid } = readGrades();
